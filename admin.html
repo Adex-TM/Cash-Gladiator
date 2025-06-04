@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cash Gladiator | Admin PRO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --neon-blue: #00f0ff;
+      --cyber-purple: #bd00ff;
+      --hologram-pink: #ff00b8;
+      --dark-matter: #0f0f1a;
+      --matrix-green: #00ff99;
+      --error-red: #ff0033;
+      --cyber-yellow: #ffe600;
+      --cyber-orange: #ff6a00;
+      --ui-gray: #1e1e2e;
+      --ui-light-gray: #2a2a3a;
+      --text-primary: rgba(255,255,255,0.9);
+      --text-secondary: rgba(255,255,255,0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: #0d0d1c url('https://images.unsplash.com/photo-1567359781514-3f964e21c3e0?q=80&w=1920') no-repeat center/cover fixed;
+      color: var(--text-primary);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(13, 13, 28, 0.85);
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .admin-wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Сайдбар */
+    .sidebar {
+      background: linear-gradient(180deg, rgba(26,26,46,0.9), rgba(15,15,26,0.95));
+      border-right: 1px solid rgba(0,240,255,0.2);
+      padding: 20px 0;
+      transition: all 0.3s ease;
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 280px;
+      z-index: 100;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 30px rgba(0,0,0,0.5);
+      overflow-y: auto;
+    }
+
+    .sidebar.collapsed {
+      width: 80px;
+    }
+
+    .sidebar .toggle-sidebar {
+      background: none;
+      border: none;
+      color: var(--neon-blue);
+      font-size: 1.4rem;
+      margin: 0 20px 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      padding: 8px;
+      border-radius: 5px;
+    }
+
+    .sidebar .toggle-sidebar:hover {
+      background: rgba(0, 240, 255, 0.1);
+      transform: scale(1.1);
+    }
+
+    .sidebar .logo {
+      display: flex;
+      align-items: center;
+      padding: 0 20px 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(0,240,255,0.1);
+    }
+
+    .sidebar .logo img {
+      height: 40px;
+      margin-right: 15px;
+    }
+
+    .sidebar .logo-text {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 1.5rem;
+      background: linear-gradient(90deg, var(--neon-blue), var(--cyber-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    .sidebar.collapsed .logo-text {
+      display: none;
+    }
+
+    .sidebar nav .nav-section {
+      margin-bottom: 25px;
+    }
+
+    .sidebar nav .section-title {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0 20px 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(0,240,255,0.1);
+    }
+
+    .sidebar.collapsed .section-title {
+      display: none;
+    }
+
+    .sidebar nav .nav-tab {
+      display: flex;
+      align-items: center;
+      padding: 14px 20px;
+      margin: 0 10px 5px;
+      color: var(--text-secondary);
+      font-weight: 600;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      font-size: 1.05rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar nav .nav-tab i {
+      margin-right: 15px;
+      min-width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .sidebar.collapsed .nav-tab i {
+      margin-right: 0;
+      font-size: 1.3rem;
+    }
+
+    .sidebar.collapsed .nav-tab span {
+      display: none;
+    }
+
+    .sidebar nav .nav-tab:hover,
+    .sidebar nav .nav-tab.active {
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--neon-blue);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+    }
+
+    .sidebar nav .nav-tab.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--neon-blue);
+      box-shadow: 0 0 10px var(--neon-blue);
+    }
+
+    .sidebar nav .nav-tab .badge {
+      margin-left: auto;
+      background: var(--cyber-purple);
+      color: white;
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .sidebar.collapsed .nav-tab .badge {
+      display: none;
+    }
+
+    /* Верхняя панель */
+    .topbar {
+      background: rgba(15,15,30,0.7);
+      border-bottom: 1px solid rgba(0,240,255,0.2);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      width: 100%;
+    }
+
+    .topbar h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 1.8rem;
+      background: linear-gradient(90deg, var(--neon-blue), var(--cyber-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .topbar-search {
+      position: relative;
+    }
+
+    .topbar-search input {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(0,240,255,0.3);
+      border-radius: 20px;
+      padding: 8px 15px 8px 35px;
+      color: white;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 500;
+      width: 200px;
+      transition: all 0.3s ease;
+    }
+
+    .topbar-search input:focus {
+      outline: none;
+      width: 250px;
+      border-color: var(--neon-blue);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+    }
+
+    .topbar-search i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+    }
+
+    .topbar-notifications {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .topbar-notifications i {
+      font-size: 1.3rem;
+      color: var(--text-secondary);
+      transition: all 0.3s ease;
+    }
+
+    .topbar-notifications:hover i {
+      color: var(--cyber-yellow);
+    }
+
+    .topbar-notifications .badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: var(--error-red);
+      color: white;
+      font-size: 0.6rem;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .admin-user {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .admin-user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--neon-blue), var(--cyber-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .admin-user-name {
+      font-weight: 600;
+    }
+
+    .admin-user-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: var(--ui-gray);
+      border: 1px solid rgba(0,240,255,0.2);
+      border-radius: 5px;
+      padding: 10px 0;
+      min-width: 200px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+
+    .admin-user:hover .admin-user-dropdown {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .admin-user-dropdown a {
+      display: block;
+      padding: 10px 20px;
+      color: var(--text-secondary);
+      transition: all 0.2s ease;
+    }
+
+    .admin-user-dropdown a:hover {
+      background: rgba(0,240,255,0.1);
+      color: var(--neon-blue);
+      padding-left: 25px;
+    }
+
+    .admin-user-dropdown .divider {
+      height: 1px;
+      background: rgba(0,240,255,0.1);
+      margin: 5px 0;
+    }
+
+    /* Основной контент */
+    .main-content {
+      flex: 1;
+      padding: 30px;
+      animation: fadeIn 0.5s ease;
+      margin-left: 280px;
+      transition: margin 0.3s ease;
+      width: calc(100% - 280px);
+    }
+
+    .main-content.collapsed {
+      margin-left: 80px;
+      width: calc(100% - 80px);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .content-title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--neon-blue);
+      letter-spacing: 1px;
+      margin-bottom: 0;
+    }
+
+    .content-actions .btn {
+      background: linear-gradient(90deg, var(--neon-blue), var(--cyber-purple));
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+      box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3);
+    }
+
+    .content-actions .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 20px rgba(0, 240, 255, 0.4);
+    }
+
+    /* Таблицы */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+      background: rgba(30, 30, 46, 0.5);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 240, 255, 0.1);
+      min-width: 800px;
+    }
+
+    .data-table thead {
+      background: rgba(0, 240, 255, 0.1);
+      border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+    }
+
+    .data-table th {
+      padding: 15px;
+      text-align: left;
+      font-weight: 700;
+      color: var(--neon-blue);
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    .data-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid rgba(0, 240, 255, 0.05);
+      color: var(--text-primary);
+      white-space: nowrap;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table tr:hover td {
+      background: rgba(0, 240, 255, 0.05);
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 240, 255, 0.1);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .table-responsive::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .table-responsive::-webkit-scrollbar-track {
+      background: rgba(30, 30, 46, 0.5);
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+      background: rgba(0, 240, 255, 0.3);
+      border-radius: 4px;
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 240, 255, 0.5);
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .status-active {
+      background: rgba(0, 255, 153, 0.1);
+      color: var(--matrix-green);
+    }
+
+    .status-inactive {
+      background: rgba(255, 0, 51, 0.1);
+      color: var(--error-red);
+    }
+
+    .status-pending {
+      background: rgba(255, 234, 0, 0.1);
+      color: var(--cyber-yellow);
+    }
+
+    .table-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .table-actions .btn {
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .table-actions .btn-edit {
+      background: rgba(0, 240, 255, 0.1);
+      color: var(--neon-blue);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+    }
+
+    .table-actions .btn-delete {
+      background: rgba(255, 0, 51, 0.1);
+      color: var(--error-red);
+      border: 1px solid rgba(255, 0, 51, 0.3);
+    }
+
+    .table-actions .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Мобильное меню */
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--neon-blue);
+      font-size: 1.5rem;
+      margin-right: 15px;
+      cursor: pointer;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 1200px) {
+      .data-table th, 
+      .data-table td {
+        padding: 10px 12px;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      
+      .sidebar.visible {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+      }
+      
+      .mobile-menu-toggle {
+        display: block;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      
+      .topbar-actions {
+        gap: 15px;
+      }
+      
+      .topbar-search input {
+        width: 150px;
+      }
+      
+      .topbar-search input:focus {
+        width: 180px;
+      }
+      
+      .topbar h1 {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .topbar {
+        padding: 15px;
+      }
+      
+      .topbar h1 {
+        font-size: 1.3rem;
+      }
+      
+      .topbar-actions {
+        gap: 10px;
+      }
+      
+      .admin-user-name {
+        display: none;
+      }
+      
+      .content-title {
+        font-size: 1.5rem;
+      }
+      
+      .topbar-search input {
+        width: 120px;
+        padding-left: 30px;
+      }
+      
+      .topbar-search input:focus {
+        width: 150px;
+      }
+    }
+
+    /* Эффекты для киберпанк стиля */
+    .glitch-effect {
+      position: relative;
+    }
+
+    .glitch-effect:hover::before {
+      content: attr(data-text);
+      position: absolute;
+      left: -2px;
+      text-shadow: 2px 0 var(--cyber-purple);
+      color: var(--text-primary);
+      background: var(--dark-matter);
+      overflow: hidden;
+      animation: glitch-effect 3s infinite linear;
+    }
+
+    @keyframes glitch-effect {
+      0% { clip: rect(55px, 9999px, 56px, 0) }
+      10% { clip: rect(25px, 9999px, 85px, 0) }
+      20% { clip: rect(45px, 9999px, 65px, 0) }
+      30% { clip: rect(30px, 9999px, 85px, 0) }
+      40% { clip: rect(65px, 9999px, 85px, 0) }
+      50% { clip: rect(35px, 9999px, 85px, 0) }
+      60% { clip: rect(55px, 9999px, 85px, 0) }
+      70% { clip: rect(65px, 9999px, 85px, 0) }
+      80% { clip: rect(85px, 9999px, 85px, 0) }
+      90% { clip: rect(25px, 9999px, 85px, 0) }
+      100% { clip: rect(55px, 9999px, 85px, 0) }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-wrapper">
+    <aside class="sidebar" id="sidebar">
+      <button class="toggle-sidebar" id="toggleSidebar"><i class="fas fa-chevron-left"></i></button>
+      
+      <div class="logo">
+        <img src="https://via.placeholder.com/40x40/00f0ff/ffffff?text=CG" alt="Logo">
+        <span class="logo-text">CASH GLADIATOR</span>
+      </div>
+      
+      <nav>
+        <div class="nav-section">
+          <div class="section-title">Основное</div>
+          <div class="nav-tab active" data-tab="dashboard">
+            <i class="fas fa-chart-pie"></i>
+            <span>Панель управления</span>
+          </div>
+          <div class="nav-tab" data-tab="analytics">
+            <i class="fas fa-chart-line"></i>
+            <span>Аналитика</span>
+            <span class="badge">NEW</span>
+          </div>
+        </div>
+        
+        <div class="nav-section">
+          <div class="section-title">Контент</div>
+          <div class="nav-tab" data-tab="levels">
+            <i class="fas fa-layer-group"></i>
+            <span>Уровни</span>
+          </div>
+          <div class="nav-tab" data-tab="stickers">
+            <i class="fas fa-sticky-note"></i>
+            <span>Стикеры</span>
+          </div>
+          <div class="nav-tab" data-tab="rewards">
+            <i class="fas fa-gem"></i>
+            <span>Награды</span>
+          </div>
+        </div>
+        
+        <div class="nav-section">
+          <div class="section-title">Пользователи</div>
+          <div class="nav-tab" data-tab="users">
+            <i class="fas fa-users"></i>
+            <span>Игроки</span>
+            <span class="badge">24</span>
+          </div>
+          <div class="nav-tab" data-tab="moderators">
+            <i class="fas fa-user-shield"></i>
+            <span>Модераторы</span>
+          </div>
+        </div>
+        
+        <div class="nav-section">
+          <div class="section-title">Система</div>
+          <div class="nav-tab" data-tab="settings">
+            <i class="fas fa-cog"></i>
+            <span>Настройки</span>
+          </div>
+          <div class="nav-tab" data-tab="logs">
+            <i class="fas fa-terminal"></i>
+            <span>Логи</span>
+          </div>
+        </div>
+      </nav>
+    </aside>
+
+    <div class="main-content" id="mainContent">
+      <header class="topbar">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle"><i class="fas fa-bars"></i></button>
+        <h1 class="glitch-effect" data-text="CASH GLADIATOR ADMIN">CASH GLADIATOR ADMIN</h1>
+        <div class="topbar-actions">
+          <div class="topbar-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Поиск...">
+          </div>
+          <div class="topbar-notifications">
+            <i class="fas fa-bell"></i>
+            <span class="badge">3</span>
+          </div>
+          <div class="admin-user">
+            <div class="admin-user-avatar">AD</div>
+            <div class="admin-user-name">Admin</div>
+            <div class="admin-user-dropdown">
+              <a href="#"><i class="fas fa-user-circle mr-2"></i> Профиль</a>
+              <a href="#"><i class="fas fa-cog mr-2"></i> Настройки</a>
+              <div class="divider"></div>
+              <a href="index.html" class="admin-logout"><i class="fas fa-sign-out-alt mr-2"></i> Выход</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <div class="content-header">
+          <h2 class="content-title">Панель управления</h2>
+          <div class="content-actions">
+            <button class="btn"><i class="fas fa-plus mr-2"></i> Создать</button>
+          </div>
+        </div>
+        
+        <!-- Таблица пользователей -->
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Имя пользователя</th>
+                <th>Email</th>
+                <th>Уровень</th>
+                <th>Баланс</th>
+                <th>Статус</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#1001</td>
+                <td>CyberNinja</td>
+                <td>ninja@example.com</td>
+                <td>15</td>
+                <td>1,250 ₽</td>
+                <td><span class="status status-active">Активен</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="btn btn-edit"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>#1002</td>
+                <td>NeonQueen</td>
+                <td>queen@example.com</td>
+                <td>22</td>
+                <td>3,450 ₽</td>
+                <td><span class="status status-active">Активен</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="btn btn-edit"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>#1003</td>
+                <td>GlitchMaster</td>
+                <td>glitch@example.com</td>
+                <td>8</td>
+                <td>750 ₽</td>
+                <td><span class="status status-inactive">Неактивен</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="btn btn-edit"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>#1004</td>
+                <td>DataPirate</td>
+                <td>pirate@example.com</td>
+                <td>31</td>
+                <td>5,200 ₽</td>
+                <td><span class="status status-pending">Ожидание</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="btn btn-edit"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>#1005</td>
+                <td>ByteHunter</td>
+                <td>hunter@example.com</td>
+                <td>17</td>
+                <td>2,100 ₽</td>
+                <td><span class="status status-active">Активен</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="btn btn-edit"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Таблица уровней -->
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Требуемый опыт</th>
+                <th>Награда</th>
+                <th>Статус</th>
+                <th>Действия</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#L001</td>
+                <td>Новичок</td>
+                <td>0 XP</td>
+                <td>50 ₽</td>
+                <td><span class="status status-active">Активен</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="btn btn-edit"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>#L002</td>
+                <td>Ученик</td>
+                <td>1,000 XP</td>
+                <td>100 ₽</td>
+                <td><span class="status status-active">Активен</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="btn btn-edit"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>#L003</td>
+                <td>Опытный</td>
+                <td>5,000 XP</td>
+                <td>250 ₽</td>
+                <td><span class="status status-active">Активен</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="btn btn-edit"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>#L004</td>
+                <td>Мастер</td>
+                <td>15,000 XP</td>
+                <td>500 ₽</td>
+                <td><span class="status status-inactive">Неактивен</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="btn btn-edit"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>#L005</td>
+                <td>Легенда</td>
+                <td>30,000 XP</td>
+                <td>1,000 ₽</td>
+                <td><span class="status status-active">Активен</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="btn btn-edit"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Сворачивание/разворачивание сайдбара
+    document.getElementById('toggleSidebar').addEventListener('click', function() {
+      const sidebar = document.getElementById('sidebar');
+      const mainContent = document.getElementById('mainContent');
+      
+      sidebar.classList.toggle('collapsed');
+      mainContent.classList.toggle('collapsed');
+      
+      if (sidebar.classList.contains('collapsed')) {
+        this.innerHTML = '<i class="fas fa-chevron-right"></i>';
+      } else {
+        this.innerHTML = '<i class="fas fa-chevron-left"></i>';
+      }
+    });
+    
+    // Мобильное меню
+    document.getElementById('mobileMenuToggle').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('visible');
+    });
+    
+    // Переключение вкладок
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelector('.nav-tab.active').classList.remove('active');
+        this.classList.add('active');
+        
+        // Здесь можно добавить загрузку контента для выбранной вкладки
+        const tabName = this.getAttribute('data-tab');
+        document.querySelector('.content-title').textContent = this.querySelector('span').textContent;
+        
+        // На мобильных устройствах закрываем меню после выбора вкладки
+        if (window.innerWidth <= 992) {
+          document.getElementById('sidebar').classList.remove('visible');
+        }
+      });
+    });
+    
+    // Закрытие меню при клике вне сайдбара на мобильных устройствах
+    document.addEventListener('click', function(e) {
+      const sidebar = document.getElementById('sidebar');
+      const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+      
+      if (window.innerWidth <= 992 && 
+          !sidebar.contains(e.target) && 
+          e.target !== mobileMenuToggle && 
+          !mobileMenuToggle.contains(e.target)) {
+        sidebar.classList.remove('visible');
+      }
+    });
+  </script>
+</body>
+</html>

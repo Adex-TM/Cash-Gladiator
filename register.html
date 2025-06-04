@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация гладиатора | Cash Gladiator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .register-section {
+            padding: 150px 0;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 60px;
+            background: rgba(26, 26, 46, 0.9);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.2);
+            backdrop-filter: blur(15px);
+            position: relative;
+            z-index: 2;
+            transform-style: preserve-3d;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .register-logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .register-logo .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--cyber-purple));
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+        }
+
+        .register-logo .logo-icon i {
+            font-size: 40px;
+            color: var(--dark-matter);
+        }
+
+        .register-logo h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--cyber-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .register-logo p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+        }
+
+        .register-form .form-row {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .register-form .form-group {
+            flex: 1;
+            position: relative;
+        }
+
+        .register-form label {
+            display: block;
+            margin-bottom: 15px;
+            color: var(--neon-blue);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 14px;
+        }
+
+        .register-form input,
+        .register-form select {
+            width: 100%;
+            padding: 18px 25px;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-family: 'Rajdhani', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .register-form input:focus,
+        .register-form select:focus {
+            outline: none;
+            border-color: var(--cyber-purple);
+            box-shadow: 0 0 20px rgba(189, 0, 255, 0.3);
+            background: rgba(189, 0, 255, 0.1);
+        }
+
+        .register-form input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .register-actions {
+            margin-top: 40px;
+        }
+
+        .register-terms {
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .register-terms a {
+            color: var(--neon-blue);
+            text-decoration: none;
+        }
+
+        .register-terms a:hover {
+            text-decoration: underline;
+        }
+
+        .register-links {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .register-links a {
+            color: var(--neon-blue);
+            text-decoration: none;
+        }
+
+        .register-links a:hover {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .register-container {
+                padding: 40px 30px;
+                margin: 0 20px;
+            }
+
+            .register-form .form-row {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .register-logo h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+        <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="logo-text">CASH GLADIATOR</div>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="desktop-nav">
+                <a href="#about">Об игре</a>
+                <a href="#levels">Уровни</a>
+                <a href="#stickers">Стикеры</a>
+                <a href="#faq">FAQ</a>
+                <a href="#footer">Контакты</a>
+                <a href="profile.html" class="btn btn-login" style="margin-left: 15px;">
+                    <i class="fas fa-user-secret"></i> Войти
+                </a>
+            </nav>
+        </div>
+    </header>
+    <!-- Floating particles -->
+    <div class="particles" id="particles"></div>
+    <!-- Cyber Grid Background -->
+    <div class="cyber-grid"></div>
+
+    <!-- Register Section -->
+    <section class="register-section">
+        <div class="container">
+            <div class="register-container floating">
+                <div class="register-logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-user-astronaut"></i>
+                    </div>
+                    <h1>СОЗДАНИЕ ГЛАДИАТОРА</h1>
+                    <p>Зарегистрируйте новый аккаунт для доступа к кибер-арене</p>
+                </div>
+
+                <form class="register-form" id="registerForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="username">Нейро-идентификатор</label>
+                            <input type="text" id="username" placeholder="Придумайте имя гладиатора" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Крипто-почта</label>
+                            <input type="email" id="email" placeholder="Ваш зашифрованный email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Биометрический ключ</label>
+                            <input type="password" id="password" placeholder="Создайте защитный код" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Подтверждение ключа</label>
+                            <input type="password" id="confirmPassword" placeholder="Повторите защитный код" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="avatar">Тип нейро-аватара</label>
+                        <select id="avatar" required>
+                            <option value="">Выберите класс</option>
+                            <option value="hacker">Кибер-хакер</option>
+                            <option value="soldier">Виртуальный солдат</option>
+                            <option value="trader">Крипто-трейдер</option>
+                            <option value="ai">ИИ-гибрид</option>
+                        </select>
+                    </div>
+
+                    <div class="register-actions">
+                        <button type="submit" class="btn">Активировать аккаунт</button>
+                    </div>
+
+                    <div class="register-terms">
+                        Нажимая кнопку, вы соглашаетесь с <a href="#">Условиями цифрового рабства</a> и подтверждаете, 
+                        что ознакомились с <a href="#">Политикой конфиденциальности нейро-данных</a>.
+                    </div>
+
+                    <div class="register-links">
+                        Уже зарегистрированы? <a href="login.html">Войти в систему</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Биометрические ключи не совпадают! Проверьте ввод.');
+                return;
+            }
+            
+            // Здесь будет логика регистрации
+            alert('Нейро-аккаунт успешно создан! Начинаем синхронизацию сознания...');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+
+</html>
